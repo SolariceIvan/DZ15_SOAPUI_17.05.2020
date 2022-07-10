@@ -1,0 +1,751 @@
+{
+	"info": {
+		"_postman_id": "df476292-570d-4fd4-899e-0e9eb6c2fa37",
+		"name": "TodoList_Ivan",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20863736"
+	},
+	"item": [
+		{
+			"name": "CreateCorrectValue",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Succes is true\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.expect(jsonData.success).to.be.true;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Error is null\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.expect(jsonData.error).to.be.null;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check ToDo is correct\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.collectionVariables.set(\"ToDoValue\", jsonData.data.todo);\r",
+							"    \r",
+							"    pm.expect(jsonData.data.todo).to.eql(\"buy milk\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"todo\": \"buy milk\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/todos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetCheckCorrectValue",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Succes is true\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.expect(jsonData.success).to.be.true;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Error is null\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.expect(jsonData.error).to.be.null;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that Value is added\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var todoValue = pm.collectionVariables.get(\"ToDoValue\");\r",
+							"\r",
+							"    var isFound = false\r",
+							"    for (var i = 0; i < jsonData.data.length; i = i + 1) {\r",
+							"         if (jsonData.data[i].todo == todoValue) {\r",
+							"            isFound = true\r",
+							"            console.log(jsonData.data[i])\r",
+							"        }\r",
+							"    }\r",
+							"    pm.expect(isFound).to.equal(true)\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/api/todos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateInCorrectEmptyValue",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 401\", function () {\r",
+							"    pm.response.to.have.status(401);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Succes is false\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.expect(jsonData.success).to.be.false;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Error is error.message\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.collectionVariables.set(\"ToDoEmptyValue\", jsonData.data.todo);\r",
+							"   pm.expect(jsonData.error).to.be.error.message;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"todo\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/todos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetCheckInCorrectEmptyValue",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Succes is true\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.expect(jsonData.success).to.be.true;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Error is null\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.expect(jsonData.error).to.be.null;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that EmptyValue isNOT added\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var todoValue = pm.collectionVariables.get(\"ToDoEmptyValue\");\r",
+							"\r",
+							"    var isFound = true\r",
+							"    for (var i = 0; i < jsonData.data.length; i = i + 1) {\r",
+							"         if (jsonData.data[i].todo == todoValue) {\r",
+							"            isFound = false\r",
+							"            console.log(jsonData.data[i])\r",
+							"        }\r",
+							"    }\r",
+							"    pm.expect(isFound).to.equal(true)\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/api/todos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateCorrectMax130symbolValue",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Succes is true\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.expect(jsonData.success).to.be.true;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Error is null\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.expect(jsonData.error).to.be.null;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check ToDo is correct\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.collectionVariables.set(\"ToDo130\", jsonData.data.todo);\r",
+							"    \r",
+							"    pm.expect(jsonData.data.todo).to.eql(\"Fksjdfowjgoijgoasjfdqu12131284813sdqhu1ue1uh13r982eut9wefhsudhqdwuher9qsudfa9isjdq9jwrfsdfksdfogkwjoijgeiojwoeigwOIEGJWSDFSFMJKNSW\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"todo\":\"Fksjdfowjgoijgoasjfdqu12131284813sdqhu1ue1uh13r982eut9wefhsudhqdwuher9qsudfa9isjdq9jwrfsdfksdfogkwjoijgeiojwoeigwOIEGJWSDFSFMJKNSW\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/todos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetCheckAddedMax130Symbols",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Succes is true\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.expect(jsonData.success).to.be.true;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Error is null\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.expect(jsonData.error).to.be.null;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that 130 symbols are added\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var todoValue = pm.collectionVariables.get(\"ToDo130\");\r",
+							"\r",
+							"    var isFound = false\r",
+							"    for (var i = 0; i < jsonData.data.length; i = i + 1) {\r",
+							"         if (jsonData.data[i].todo == todoValue) {\r",
+							"            isFound = true\r",
+							"            console.log(jsonData.data[i])\r",
+							"        }\r",
+							"    }\r",
+							"    pm.expect(isFound).to.equal(true)\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/api/todos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateInCorrect131Symbols",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 401\", function () {\r",
+							"    pm.response.to.have.status(401);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Succes is false\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.expect(jsonData.success).to.be.false;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Error is error.message\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.collectionVariables.set(\"ToDo131\", jsonData.data.todo);\r",
+							"   pm.expect(jsonData.error).to.be.error.message;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"todo\": \"@Fksjdfowjgoijgoasjfdqu12131284813sdqhu1ue1uh13r982eut9wefhsudhqdwuher9qsudfa9isjdq9jwrfsdfksdfogkwjoijgeiojwoeigwOIEGJWSDFSFMJKNSW\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/todos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetCheckInCorrect131Symbols",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Succes is true\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.expect(jsonData.success).to.be.true;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Error is null\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.expect(jsonData.error).to.be.null;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that 131 symbols areNOT added\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var todoValue = pm.collectionVariables.get(\"ToDo131\");\r",
+							"\r",
+							"    var isFound = true\r",
+							"    for (var i = 0; i < jsonData.data.length; i = i + 1) {\r",
+							"         if (jsonData.data[i].todo == todoValue) {\r",
+							"            isFound = false\r",
+							"            console.log(jsonData.data[i])\r",
+							"        }\r",
+							"    }\r",
+							"    pm.expect(isFound).to.equal(true)\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/api/todos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateInCorrectShort2Symbols",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 401\", function () {\r",
+							"    pm.response.to.have.status(401);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Succes is false\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.expect(jsonData.success).to.be.false;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Error is error.message\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.collectionVariables.set(\"ToDoTwoSymbols\", jsonData.data.todo);\r",
+							"   pm.expect(jsonData.error).to.be.error.message;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"todo\": \"ab\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/todos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetCheckInCorrectShort-2-Symbols",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Succes is true\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.expect(jsonData.success).to.be.true;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Error is null\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.expect(jsonData.error).to.be.null;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that 2 symbols areNOT added\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var todoValue = pm.collectionVariables.get(\"ToDoTwoSymbols\");\r",
+							"\r",
+							"    var isFound = true\r",
+							"    for (var i = 0; i < jsonData.data.length; i = i + 1) {\r",
+							"         if (jsonData.data[i].todo == todoValue) {\r",
+							"            isFound = false\r",
+							"            console.log(jsonData.data[i])\r",
+							"        }\r",
+							"    }\r",
+							"    pm.expect(isFound).to.equal(true)\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/api/todos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateInCorrectScriptXSSAttack",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 401\", function () {\r",
+							"    pm.response.to.have.status(401);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Succes is false\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.expect(jsonData.success).to.be.false;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Error is error.message\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.collectionVariables.set(\"ToDoScript\", jsonData.data.todo);\r",
+							"   pm.expect(jsonData.error).to.be.error.message;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"todo\": \"<script>alert(\\\"I hacked this!\\\")</script>\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/todos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"todos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetCheckInCorrectScriptXSSAttack",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Succes is true\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.expect(jsonData.success).to.be.true;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Error is null\", function () {\r",
+							"   var jsonData = pm.response.json();\r",
+							"   pm.expect(jsonData.error).to.be.null;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check that Script XSS attack is possible\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    var todoValue = pm.collectionVariables.get(\"ToDoScript\");\r",
+							"\r",
+							"    var isFound = true\r",
+							"    for (var i = 0; i < jsonData.data.length; i = i + 1) {\r",
+							"         if (jsonData.data[i].todo == todoValue) {\r",
+							"            isFound = false\r",
+							"            console.log(jsonData.data[i])\r",
+							"        }\r",
+							"    }\r",
+							"    pm.expect(isFound).to.equal(true)\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/api/todos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"todos"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "SUCCES",
+			"value": ""
+		},
+		{
+			"key": "DATA",
+			"value": ""
+		},
+		{
+			"key": "success",
+			"value": ""
+		},
+		{
+			"key": "data",
+			"value": ""
+		},
+		{
+			"key": "ToDoValue",
+			"value": ""
+		},
+		{
+			"key": "ToDoEmptyValue",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "ToDo130",
+			"value": ""
+		},
+		{
+			"key": "ToDo131",
+			"value": ""
+		},
+		{
+			"key": "ToDoTwoSymbols",
+			"value": ""
+		},
+		{
+			"key": "ToDoScript",
+			"value": ""
+		}
+	]
+}
